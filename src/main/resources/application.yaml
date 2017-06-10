@@ -4,3 +4,26 @@ server:
 management:
   security:
     enabled: false
+
+spring:
+  application:
+    name: todo
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    default-property-inclusion: non_empty
+  jmx:
+    enabled: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:prototype;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;MODE=Oracle
+    data-username: sa
+    data-password:
+    initialize: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  h2:
+    console:
+      enabled: true

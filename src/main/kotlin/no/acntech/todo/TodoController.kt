@@ -9,11 +9,11 @@ class TodoController(val todoRepository: TodoRepository) {
 
     @GetMapping("todo")
     fun findAll(): List<Todo> {
-        return todoRepository.findAll()
+        return todoRepository.findAll().toList()
     }
 
     @GetMapping("todo/{id}")
-    fun find(@PathVariable id: String): Todo {
-        return todoRepository.find(id)
+    fun find(@PathVariable id: Long): Todo? {
+        return todoRepository.findById(id).orElse(null)
     }
 }
