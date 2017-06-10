@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RestController
 class TodoController {
 
     @GetMapping("todo")
-    fun findAll(): List<String> {
-        return listOf("a", "b", "c")
+    fun findAll(): List<Todo> {
+        val value1 = Todo(1L, "value1", true)
+        val value2 = Todo(2L, "value2", false)
+        return listOf(value1, value2)
     }
 
     @GetMapping("todo/{id}")
-    fun find(@PathVariable id: String): String {
-        return id
+    fun find(@PathVariable id: String): Todo {
+        return Todo(id.toLongOrNull(), id, true)
     }
 }
