@@ -9,5 +9,5 @@ import javax.persistence.Id
 class Todo(
         @Id @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long? = null,
-        var text: String? = null,
-        var isDone: Boolean? = null)
+        var description: String? = null,
+        var isDone: Boolean? = false)

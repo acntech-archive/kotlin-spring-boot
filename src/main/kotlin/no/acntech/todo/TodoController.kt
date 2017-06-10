@@ -1,10 +1,8 @@
 package no.acntech.todo
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 class TodoController(val todoRepository: TodoRepository) {
@@ -31,5 +29,12 @@ class TodoController(val todoRepository: TodoRepository) {
         } else {
             return todoRepository.findAll().toList()
         }
+    }
+
+    @PostMapping("todo")
+    fun create(@RequestBody description: String, uri: UriComponentsBuilder): ResponseEntity<String> {
+        val save = todoRepository.save(Todo(description = description))
+        val path = uri.path("todo/${save.id}").build().toUri()
+        return ResponseEntity.created(path).build()
     }
 }
