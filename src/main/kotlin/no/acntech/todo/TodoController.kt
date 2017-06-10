@@ -1,5 +1,6 @@
 package no.acntech.todo
 
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
@@ -33,8 +34,15 @@ class TodoController(val todoRepository: TodoRepository) {
 
     @PostMapping("todo")
     fun create(@RequestBody description: String, uri: UriComponentsBuilder): ResponseEntity<String> {
-        val save = todoRepository.save(Todo(description = description))
-        val path = uri.path("todo/${save.id}").build().toUri()
+        val todo = todoRepository.save(Todo(description = description))
+        val path = uri.path("todo/${todo.id}").build().toUri()
         return ResponseEntity.created(path).build()
+    }
+
+    @DeleteMapping("todo/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    fun delete(@PathVariable id: Long) {
+        val todo = todoRepository.findById(id)
+        todo.ifPresent(todoRepository::delete)
     }
 }
