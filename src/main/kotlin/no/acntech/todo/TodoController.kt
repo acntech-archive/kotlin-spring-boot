@@ -6,14 +6,15 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
+@RequestMapping("todo")
 class TodoController(val todoRepository: TodoRepository) {
 
-    @GetMapping("todo")
+    @GetMapping
     fun findAll(): List<Todo> {
         return todoRepository.findAll().toList()
     }
 
-    @GetMapping("todo/{id}")
+    @GetMapping("{id}")
     fun find(@PathVariable id: Long): ResponseEntity<Todo> {
         val todo = todoRepository.findById(id)
         if (todo.isPresent) {
@@ -23,23 +24,23 @@ class TodoController(val todoRepository: TodoRepository) {
         }
     }
 
-    @GetMapping("todo/search")
+    @GetMapping("search")
     fun search(@RequestParam(required = false) done: Boolean?): List<Todo> {
         if (done != null) {
-            return todoRepository.findByIsDone(done).toList()
+            return todoRepository.findByDone(done).toList()
         } else {
             return todoRepository.findAll().toList()
         }
     }
 
-    @PostMapping("todo")
+    @PostMapping
     fun create(@RequestBody description: String, uri: UriComponentsBuilder): ResponseEntity<String> {
         val todo = todoRepository.save(Todo(description = description))
         val path = uri.path("todo/${todo.id}").build().toUri()
         return ResponseEntity.created(path).build()
     }
 
-    @DeleteMapping("todo/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     fun delete(@PathVariable id: Long) {
         val todo = todoRepository.findById(id)

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TodoRepository : CrudRepository<Todo, Long> {
 
-    fun findByIsDone(done: Boolean): Iterable<Todo>
+    fun findByDone(done: Boolean): Iterable<Todo>
 
 }
