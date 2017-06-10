@@ -1,4 +1,4 @@
-package no.acntech.demo
+package no.acntech.todo
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
