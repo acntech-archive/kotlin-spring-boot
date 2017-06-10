@@ -54,7 +54,7 @@ class TodoController(val todoRepository: TodoRepository) {
         if (optionalTodo.isPresent) {
             val todo = optionalTodo.get()
             todo.description = body.description
-            todo.isDone = body.isDone
+            todo.done = body.done
             val updatedTodo = todoRepository.save(todo)
             return ResponseEntity.ok(updatedTodo)
         }
