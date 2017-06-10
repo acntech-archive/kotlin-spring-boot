@@ -37,4 +37,18 @@ class TodoController(val todoRepository: TodoRepository) {
         val path = uri.path("todo/${save.id}").build().toUri()
         return ResponseEntity.created(path).build()
     }
+
+    @PutMapping("todo/{id}")
+    fun updateTodo(@PathVariable id: Long, @RequestBody body: Todo): ResponseEntity<Todo> {
+        val optionalTodo = todoRepository.findById(id)
+
+        if (optionalTodo.isPresent) {
+            val todo = optionalTodo.get()
+            todo.description = body.description
+            todo.isDone = body.isDone
+            val updatedTodo = todoRepository.save(todo)
+            return ResponseEntity.ok(updatedTodo)
+        }
+        return ResponseEntity.notFound().build()
+    }
 }
